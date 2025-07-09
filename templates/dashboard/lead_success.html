@@ -1,0 +1,12 @@
+{% extends 'dashboard/base.html' %}
+{% block content %}
+<div class="container py-4">
+    <h2>✅ Lead Added Successfully!</h2>
+    <p><strong>Name:</strong> {{ lead.name }}</p>
+    <p><strong>City:</strong> {{ lead.city }}</p>
+    <p><strong>Service:</strong> {{ lead.service_type }}</p>
+    <div class="alert alert-success">
+        🧠 <strong>AI Suggestion:</strong> Best time to call: {{ suggested_time }}
+    </div>
+</div>
+{% endblock %}

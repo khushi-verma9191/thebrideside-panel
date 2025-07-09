@@ -1,0 +1,49 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg rounded-4">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">📋 Add New Lead</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Render form fields with Bootstrap classes -->
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="text-danger small">
+                                        {{ field.errors|striptags }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+
+                        <!-- Custom Date Field (event_date) -->
+                        <div class="mb-3">
+                            <label for="id_event_date" class="form-label">Event Date</label>
+                            <input type="date" name="event_date" id="id_event_date" class="form-control" required>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">➕ Submit Lead</button>
+                        </div>
+                    </form>
+
+                    {% if suggested_time %}
+                        <div class="alert alert-info mt-4">
+                            🧠 <strong>AI Suggestion:</strong> Best time to call = {{ suggested_time }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

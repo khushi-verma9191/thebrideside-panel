@@ -7,6 +7,7 @@ from .models import Lead, SalesRep
 from django.db.models import Q
 from .models import CallSchedule
 from django.utils import timezone
+from .forms import LeadForm
 
 def admin_dashboard(request):
     today = now().date()
@@ -85,3 +86,18 @@ def suggest_call_time(city):
         return "10AM–1PM or 5PM–7PM IST"
     else:
         return "7PM–10PM IST"
+
+def lead_create(request):
+    suggested_time = None
+
+    if request.method == 'POST':
+        form = LeadForm(request.POST)
+        if form.is_valid():
+            lead = form.save()
+            city = lead.city
+            suggested_time = suggest_call_time(city)
+            return render(request, 'dashboard/lead_success.html', {'lead': lead, 'suggested_time': suggested_time})
+    else:
+        form = LeadForm()
+
+    return render(request, 'dashboard/lead_form.html', {'form': form, 'suggested_time': suggested_time})
